@@ -68,16 +68,17 @@ File `proxy.js` dibuat di root proyek untuk memproteksi rute `/admin` menggunaka
 **Perbaikan:**
 Menerapkan perlindungan berlapis (defense-in-depth) baik pada level routing proxy (`proxy.js`) maupun server component (`app/admin/page.jsx`) untuk memastikan rute admin tidak bisa dibuka tanpa sesi login yang valid.
 
+## US-07 List Produk
+
+**Prompt:**
+Tolong kerjakan fitur bonus US-07: List Produk. Implementasikan halaman atau komponen manajemen/tampilan daftar produk tambahan (list produk) sesuai dengan standar teknis yang ada di dalam direktori docs/user-stories.md untuk US-07. Pastikan integrasi dengan database Supabase berjalan dengan baik dan aman (menggunakan data dari tabel produk). Terapkan gaya antarmuka (UI/UX) yang konsisten dengan halaman lainnya menggunakan Tailwind CSS.
+
+**Hasil:**
+Halaman `app/admin/page.jsx` diperbarui agar daftar produk diambil langsung dari tabel `produk` di Supabase secara server-side melalui koneksi sesi admin (`createAuthClient`), menggantikan `produkContoh`. Komponen `components/TabelProduk.jsx` diperbarui dengan penanganan baris kosong ("Belum ada produk") dan mempertahankan seluruh styling konsisten dengan DESIGN.md. Ditambahkan penanganan pesan error yang informatif jika terjadi kendala pengambilan data dari database.
+
+**Perbaikan:**
+Menambahkan fallback state "Belum ada produk" di dalam `TabelProduk` dan error state visual pada `app/admin/page.jsx`.
+
 ## Debugging dan fitur bonus
 
 Tambahkan bagian baru untuk setiap error yang kamu perbaiki atau fitur bonus yang kamu kerjakan.
-
-## US-07 Proteksi halaman admin
-
-**Prompt:**
-
-**Hasil:**
-
-**Perbaikan:**
-
-## Debugging dan fitur bonus

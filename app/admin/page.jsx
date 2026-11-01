@@ -2,11 +2,11 @@ import { redirect } from "next/navigation";
 import NavAdmin from "@/components/NavAdmin";
 import TabelProduk from "@/components/TabelProduk";
 import Tombol from "@/components/Tombol";
-import { produkContoh } from "@/lib/data-contoh";
 import { createAuthClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
+// US-07 (bonus): daftar produk di halaman admin diambil langsung dari tabel produk di database.
 export default async function HalamanAdmin() {
   const supabase = await createAuthClient();
   const {
@@ -17,8 +17,23 @@ export default async function HalamanAdmin() {
     redirect("/admin/login");
   }
 
-  // US-07 (bonus): daftar produk masih memakai data contoh, belum dari database.
-  const daftarProduk = produkContoh;
+  let daftarProduk = [];
+  let errorMsg = null;
+
+  try {
+    const { data, error } = await supabase
+      .from("produk")
+      .select("*")
+      .order("id", { ascending: true });
+
+    if (error) {
+      errorMsg = error.message;
+    } else {
+      daftarProduk = data || [];
+    }
+  } catch (err) {
+    errorMsg = err.message || "Gagal memuat produk dari database.";
+  }
 
   return (
     <div className="flex flex-col gap-6 py-8">
@@ -28,7 +43,15 @@ export default async function HalamanAdmin() {
         {/* US-08 (bonus): tambah produk */}
         <Tombol href="/admin/produk/baru">Tambah produk</Tombol>
       </div>
-      <TabelProduk daftarProduk={daftarProduk} />
+
+      {errorMsg ? (
+        <div className="rounded-xl border border-garis bg-permukaan p-4 text-bahaya">
+          <p className="font-semibold">Gagal memuat daftar produk</p>
+          <p className="mt-1 text-sm">{errorMsg}</p>
+        </div>
+      ) : (
+        <TabelProduk daftarProduk={daftarProduk} />
+      )}
     </div>
   );
 }
