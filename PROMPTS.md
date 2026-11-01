@@ -38,10 +38,13 @@ Menambahkan sanitasi pembersihan non-digit pada nomor WhatsApp dari `lib/toko.js
 ## US-04 Login admin
 
 **Prompt:**
+Baca AGENTS.md bagian aturan keamanan dan docs/user-stories.md bagian US-04. Buat login admin memakai Supabase Auth (email dan password) dengan @supabase/ssr dan cookie, memakai SUPABASE_URL dan SUPABASE_PUBLISHABLE_KEY. Login diproses dengan Server Action di app/admin/actions.js dan disambungkan ke form di app/admin/login/page.jsx. Login berhasil diarahkan ke /admin; login gagal menampilkan pesan error yang jelas di halaman login. Buat juga tombol "Keluar" di components/NavAdmin.jsx berfungsi: mengakhiri sesi lalu kembali ke /admin/login. Jangan ubah tampilan. Hapus CatatanBelumAktif dari halaman login.
 
 **Hasil:**
+Fungsi `createAuthClient` ditambahkan ke `lib/supabase/server.js` menggunakan `@supabase/ssr` dan cookie store Next.js. Server Action `login` dan `keluar` dibuat di `app/admin/actions.js`. Form di `app/admin/login/page.jsx` disambungkan ke action login via `useActionState`, menampilkan pesan error saat login gagal, dan mengarahkan ke `/admin` saat berhasil. Tombol "Keluar" di `components/NavAdmin.jsx` difungsikan dengan form action `keluar` menuju `/admin/login`. Komponen `CatatanBelumAktif` dihapus dari halaman login.
 
 **Perbaikan:**
+Mendukung format pemanggilan ganda pada Server Action `login` (baik via `useActionState` maupun pemanggilan `<form action={login}>` secara langsung).
 
 ## US-05 Ganti password
 
