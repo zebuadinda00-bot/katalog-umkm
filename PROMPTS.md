@@ -16,10 +16,13 @@ Menambahkan pembersihan/normalisasi pada `SUPABASE_URL` agar otomatis memangkas 
 ## US-02 Detail produk
 
 **Prompt:**
+Ubah app/produk/[id]/page.jsx supaya mengambil satu produk dari tabel "produk" di Supabase berdasarkan id di URL, di sisi server, memakai koneksi Supabase yang sudah dibuat di lib/supabase. Kalau produk tidak ditemukan, panggil notFound(). Jangan ubah tampilannya. Hapus CatatanBelumAktif dari halaman ini, tapi biarkan tombol WhatsApp.
 
 **Hasil:**
+Halaman `app/produk/[id]/page.jsx` diperbarui untuk mengambil detail produk dari tabel `produk` di Supabase berdasarkan `id` secara server-side menggunakan `createClient()`. Menampilkan foto, kategori, nama, harga, dan deskripsi produk tanpa mengubah tata letak tampilan. Jika produk tidak ditemukan atau id tidak valid, memanggil fungsi `notFound()`. Komponen `CatatanBelumAktif` telah dihapus dan `TombolWhatsApp` tetap dipertahankan.
 
 **Perbaikan:**
+Menangani potensi error query atau format id tidak valid dengan membungkus query dalam try-catch sebelum memanggil `notFound()`.
 
 ## US-03 Pesan via WhatsApp
 
