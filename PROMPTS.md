@@ -60,11 +60,24 @@ Memeriksa autentikasi admin di server sebelum pembaruan password dijalankan, ses
 ## US-06 Proteksi halaman admin
 
 **Prompt:**
+Baca AGENTS.md aturan keamanan nomor 3 dan 4, dan docs/user-stories.md bagian US-06. Buat file proxy.js di root proyek (Next.js 16). Semua rute /admin kecuali /admin/login wajib login dengan Supabase Auth; kalau belum login, alihkan ke /admin/login. Pastikan juga setiap Server Action yang mengubah data memeriksa login di server. Hapus CatatanBelumAktif dari halaman /admin.
+
+**Hasil:**
+File `proxy.js` dibuat di root proyek untuk memproteksi rute `/admin` menggunakan `@supabase/ssr`. Jika belum login, permintaan ke rute `/admin` mana pun (kecuali `/admin/login`) langsung dialihkan ke `/admin/login`. Server component di `app/admin/page.jsx` juga diperkuat dengan verifikasi login di server dan komponen `CatatanBelumAktif` telah dihapus. Server Action yang mengubah data (`gantiPassword`) memastikan sesi login admin diperiksa di server via `supabase.auth.getUser()`.
+
+**Perbaikan:**
+Menerapkan perlindungan berlapis (defense-in-depth) baik pada level routing proxy (`proxy.js`) maupun server component (`app/admin/page.jsx`) untuk memastikan rute admin tidak bisa dibuka tanpa sesi login yang valid.
+
+## Debugging dan fitur bonus
+
+Tambahkan bagian baru untuk setiap error yang kamu perbaiki atau fitur bonus yang kamu kerjakan.
+
+## US-07 Proteksi halaman admin
+
+**Prompt:**
 
 **Hasil:**
 
 **Perbaikan:**
 
 ## Debugging dan fitur bonus
-
-Tambahkan bagian baru untuk setiap error yang kamu perbaiki atau fitur bonus yang kamu kerjakan.
