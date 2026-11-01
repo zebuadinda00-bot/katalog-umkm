@@ -27,10 +27,13 @@ Menangani potensi error query atau format id tidak valid dengan membungkus query
 ## US-03 Pesan via WhatsApp
 
 **Prompt:**
+Ubah components/TombolWhatsApp.jsx menjadi tautan yang membuka https://wa.me/ ke nomor di lib/toko.js, dengan pesan otomatis berisi nama dan harga produk dalam format rupiah. Pesan di-encode dengan encodeURIComponent dan dibuka di tab baru. Pertahankan tampilan tombolnya. Hapus CatatanBelumAktif yang menyebut US-03 di halaman detail produk.
 
 **Hasil:**
+Komponen `components/TombolWhatsApp.jsx` diubah menjadi tautan `<a>` yang mengarah ke `https://wa.me/<nomor>?text=<pesan>`. Nomor diambil dari `lib/toko.js`, pesan di-encode dengan `encodeURIComponent`, dan tautan dibuka di tab baru (`target="_blank"` dengan `rel="noopener noreferrer"`). Tampilan tombol dipertahankan sepenuhnya, dan `CatatanBelumAktif` pada halaman detail produk dipastikan telah terhapus.
 
 **Perbaikan:**
+Menambahkan sanitasi pembersihan non-digit pada nomor WhatsApp dari `lib/toko.js` untuk memastikan format nomor valid bagi wa.me.
 
 ## US-04 Login admin
 
