@@ -44,6 +44,53 @@ export async function keluar() {
   redirect("/admin/login");
 }
 
+/**
+ * Server Action untuk ganti password admin yang sedang login.
+ * Memvalidasi panjang minimal 8 karakter dan kesamaan konfirmasi password.
+ */
+export async function gantiPassword(prevState, formData) {
+  const data = formData instanceof FormData ? formData : prevState;
+
+  const passwordBaru = data?.get ? data.get("password_baru") : null;
+  const konfirmasiPassword = data?.get ? data.get("konfirmasi_password") : null;
+
+  if (!passwordBaru || !konfirmasiPassword) {
+    return { error: "Semua kolom password wajib diisi." };
+  }
+
+  if (String(passwordBaru).length < 8) {
+    return { error: "Password baru minimal 8 karakter." };
+  }
+
+  if (passwordBaru !== konfirmasiPassword) {
+    return { error: "Konfirmasi password tidak sama dengan password baru." };
+  }
+
+  const supabase = await createAuthClient();
+
+  // Validasi login di server (keamanan wajib)
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    return { error: "Sesi login telah berakhir. Silakan login kembali." };
+  }
+
+  const { error: updateError } = await supabase.auth.updateUser({
+    password: String(passwordBaru),
+  });
+
+  if (updateError) {
+    return {
+      error: updateError.message || "Gagal mengganti password. Silakan coba lagi.",
+    };
+  }
+
+  return { success: "Password berhasil diganti." };
+}
+
 export const masuk = login;
 export const logout = keluar;
-
+export const ubahPassword = gantiPassword;

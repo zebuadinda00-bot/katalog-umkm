@@ -49,10 +49,13 @@ Mendukung format pemanggilan ganda pada Server Action `login` (baik via `useActi
 ## US-05 Ganti password
 
 **Prompt:**
+Baca docs/user-stories.md bagian US-05. Buat Server Action ganti password di app/admin/actions.js untuk admin yang sedang login, memakai Supabase Auth. Validasi di server: password baru minimal 8 karakter dan harus sama dengan konfirmasi. Tampilkan pesan berhasil atau pesan error yang jelas di halaman. Sambungkan ke form di app/admin/password/page.jsx tanpa mengubah tampilannya. Hapus CatatanBelumAktif dari halaman ini.
 
 **Hasil:**
+Server Action `gantiPassword` dibuat di `app/admin/actions.js`. Memvalidasi bahwa admin sedang login di server via `supabase.auth.getUser()`, serta memvalidasi password baru minimal 8 karakter dan sama dengan konfirmasi sebelum memanggil `supabase.auth.updateUser()`. Form di `app/admin/password/page.jsx` disambungkan menggunakan `useActionState`, menampilkan pesan berhasil atau pesan error dengan styling token desain yang sesuai, serta menghapus `CatatanBelumAktif`.
 
 **Perbaikan:**
+Memeriksa autentikasi admin di server sebelum pembaruan password dijalankan, sesuai aturan keamanan AGENTS.md #3.
 
 ## US-06 Proteksi halaman admin
 
